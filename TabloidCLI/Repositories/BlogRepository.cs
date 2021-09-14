@@ -133,7 +133,8 @@ namespace TabloidCLI.Repositories
                     cmd.Parameters.AddWithValue("@id", id);
 
                     cmd.ExecuteNonQuery();
-                }            }
+                }            
+            }
         }
 
     }
