@@ -23,6 +23,7 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Console.WriteLine("Author Menu");
             Console.WriteLine(" 1) List Blogs");
+            Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
             string choice = Console.ReadLine();
@@ -31,6 +32,8 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "1":
                     List();
                     return this;
+                case "0":
+                    return _parentUI;
                 default:
                     Console.WriteLine("Invalid Selection");
                     return this;

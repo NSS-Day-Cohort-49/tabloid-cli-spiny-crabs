@@ -9,7 +9,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
         public IUserInterfaceManager Execute()
         {
-            Console.WriteLine("Welcome to Tabloid! :crab: ");
+            Console.WriteLine("Welcome to Tabloid!");
 
             Console.WriteLine("Main Menu");
 
