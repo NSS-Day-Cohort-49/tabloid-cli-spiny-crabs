@@ -24,8 +24,8 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Journal Menu");
             Console.WriteLine(" 1) List all Journals");
             Console.WriteLine(" 2) Add Journal");
-/*          Console.WriteLine(" 3) Add Author");
-            Console.WriteLine(" 4) Edit Author");
+            Console.WriteLine(" 3) Edit Journal Entry");
+/*            Console.WriteLine(" 4) Edit Author");
             Console.WriteLine(" 5) Remove Author");*/
             Console.WriteLine(" 0) Go Back");
 
@@ -39,10 +39,10 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "2":
                     Add();
                     return this;
-                /*case "3":
-                    Add();
+                case "3":
+                    Edit();
                     return this;
-                case "4":
+                /*case "4":
                     Edit();
                     return this;
                 case "5":
@@ -61,9 +61,9 @@ namespace TabloidCLI.UserInterfaceManagers
             List<Journal> journals = _journalRepository.GetAll();
             foreach (Journal journal in journals)
             {
-                Console.WriteLine($"{journal.Title}");
+                Console.WriteLine($"Title: {journal.Title}");
                 Console.WriteLine($"{journal.Content}");
-                Console.WriteLine($"{journal.CreateDateTime}");
+                Console.WriteLine($"Date: {journal.CreateDateTime}");
             }
         }
 
@@ -81,6 +81,30 @@ namespace TabloidCLI.UserInterfaceManagers
             journal.CreateDateTime = DateTime.UtcNow;
 
             _journalRepository.Insert(journal);
+        }
+
+        private void Edit()
+        {
+            List<Journal> journals = _journalRepository.GetAll();
+            foreach (Journal j in journals)
+            {
+                Console.WriteLine($"Title: ({j.Id}) {j.Title}");
+                Console.WriteLine($"{j.Content}");
+                Console.WriteLine($"Date: {j.CreateDateTime}");
+            }
+            Journal journal = new Journal();
+            Console.Write("Which journal entry would you like to edit? ");
+            journal.Id = int.Parse(Console.ReadLine());
+            if (journal.Id != null)
+            {
+                return;
+            }
+            Console.Write("What would you like the title to be? (Leave blank if no changes)");
+            if (!string.IsNullOrWhiteSpace(firstName))
+            {
+                authorToEdit.FirstName = firstName;
+            }
+            Console.Write
         }
     }
 }
