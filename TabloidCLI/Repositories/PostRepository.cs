@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using TabloidCLI.Models;
-using TabloidCLI.Repositories;
 
 
-namespace TabloidCLI
+
+namespace TabloidCLI.Repositories
 {
     public class PostRepository : DatabaseConnector, IRepository<Post>
     {
