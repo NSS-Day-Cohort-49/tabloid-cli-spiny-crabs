@@ -5,7 +5,7 @@ using TabloidCLI.Models;
 using TabloidCLI.Repositories;
 using TabloidCLI.UserInterfaceManagers;
 
-namespace TabloidCLI
+namespace TabloidCLI.Repositories
 {
     public class TagRepository : DatabaseConnector, IRepository<Tag>
     {
@@ -42,6 +42,18 @@ namespace TabloidCLI
         public Tag Get(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Tag> GetTags(int tagId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT * FROM Tag"
+                }
+            }
         }
 
         public void Insert(Tag tag)
