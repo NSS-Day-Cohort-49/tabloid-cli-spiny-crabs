@@ -45,10 +45,9 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "2":
                     Add();
                     return this;
-
-                //case "3":
-                //    Edit();
-                //    return this;
+                case "3":
+                    Edit();
+                    return this;
                 case "4":
                     Remove();
                     return this;
@@ -101,6 +100,59 @@ namespace TabloidCLI.UserInterfaceManagers
         }
 
 
+        private void Edit()
+        {
+            Post postToEdit = Choose("Which post would you like to edit?");
+            if (postToEdit == null)
+            {
+                return;
+            }
+
+            Console.WriteLine();
+            Console.Write("New Title (blank to leave unchanged): ");
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                postToEdit.Title = title;
+            }
+            Console.Write("New URL (blank to leave unchanged): ");
+            string url = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                postToEdit.Url = url;
+            }
+            Console.WriteLine("New Authors Index (blank to leave unchanged): ");
+            List<Author> authors = _authorRepository.GetAll();
+            for (int i = 0; i < authors.Count; i++)
+            {
+                Author newAuthor = authors[i];
+                Console.WriteLine($" {i + 1}) {newAuthor.FullName}");
+            }
+            Console.Write("> ");
+
+            string authorIndexString = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(authorIndexString))
+            {
+                postToEdit.Author = authors[int.Parse(authorIndexString) - 1];
+            }
+
+            Console.WriteLine("New Blog Index (blank to leave unchanged): ");
+            List<Blog> blogs = _blogRepository.GetAll();
+            for (int i = 0; i < blogs.Count; i++)
+            {
+                Blog newBlog = blogs[i];
+                Console.WriteLine($" {i + 1}) {newBlog.Title}");
+            }
+            Console.Write("> ");
+            string blogIndexString = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(blogIndexString))
+            {
+                postToEdit.Blog = blogs[int.Parse(blogIndexString) - 1];
+            }
+            postToEdit.PublishDateTime = DateTime.UtcNow;
+            _postRepository.Update(postToEdit);
+        }
+
         private void Add()
         {
             Console.WriteLine("New Post");
@@ -122,8 +174,8 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.Write("> ");
 
             int authorIndex = int.Parse(Console.ReadLine());
-            
-            post.Author = authors[authorIndex-1]; 
+
+            post.Author = authors[authorIndex - 1];
 
             Console.WriteLine("Please select a Blog Value: ");
             List<Blog> blogs = _blogRepository.GetAll();
@@ -134,7 +186,7 @@ namespace TabloidCLI.UserInterfaceManagers
             }
             Console.Write("> ");
             int blogIndex = int.Parse(Console.ReadLine());
-            post.Blog = blogs[blogIndex-1];
+            post.Blog = blogs[blogIndex - 1];
 
             post.PublishDateTime = DateTime.UtcNow;
 
