@@ -1,5 +1,6 @@
 ﻿using System;
 using TabloidCLI.Models;
+using TabloidCLI.Repositories;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
