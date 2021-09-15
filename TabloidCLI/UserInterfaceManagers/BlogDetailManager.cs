@@ -27,7 +27,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine($"{blog.Title} Details");
             Console.WriteLine(" 1) View");
             Console.WriteLine(" 2) Add Tag");
-            //Console.WriteLine(" 3) Remove Tag");
+            Console.WriteLine(" 3) Remove Tag");
             //Console.WriteLine(" 4) View Posts");
             Console.WriteLine(" 0) Go Back");
 
@@ -40,6 +40,9 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
                 case "2":
                     AddTag();
+                    return this;
+                case "3":
+                    RemoveTag();
                     return this;
                 case "0":
                     return _parentUI;
@@ -92,6 +95,37 @@ namespace TabloidCLI.UserInterfaceManagers
             catch (Exception ex)
             {
                 Console.WriteLine("Invalid Selection. Won't add any tags.");
+            }
+        }
+
+        private void RemoveTag()
+        {
+            Blog blog = _blogRepository.Get(_blogId);
+
+            if (blog.Tags.Count == 0)
+            {
+                return;
+            }
+
+            Console.WriteLine($"Which tag would you like to remove from {blog.Title}");
+
+            for (int i = 0; i < blog.Tags.Count; i++)
+            {
+                Tag tag = blog.Tags[i];
+                Console.WriteLine($" {i + 1}) {tag.Name}");
+            }
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                Tag tag = blog.Tags[choice - 1];
+                _blogRepository.DeleteTag(blog, tag);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Selection. Won't remove any tags.");
             }
         }
     }
