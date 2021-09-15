@@ -68,6 +68,7 @@ namespace TabloidCLI.Repositories
         {
             throw new NotImplementedException();
         }
+
         public void Update(Journal journal)
         {
             using (SqlConnection conn = Connection)
@@ -77,7 +78,9 @@ namespace TabloidCLI.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"UPDATE Journal
-                                        SET Title = @title, Content = @content, CreateDateTime = @createDateTime
+                                        SET Title = @title, 
+                                        Content = @content, 
+                                        CreateDateTime = @createDateTime
                                         WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@title", journal.Title);
                     cmd.Parameters.AddWithValue("@content", journal.Content);

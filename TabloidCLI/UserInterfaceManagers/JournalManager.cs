@@ -83,28 +83,72 @@ namespace TabloidCLI.UserInterfaceManagers
             _journalRepository.Insert(journal);
         }
 
+        private Journal Choose(string prompt = null)
+        {
+            if (prompt == null)
+            {
+                prompt = "Please choose a Journal:";
+            }
+
+            Console.WriteLine(prompt);
+
+            List<Journal> journals = _journalRepository.GetAll();
+
+            for (int i = 0; i < journals.Count; i++)
+            {
+                Journal journal = journals[i];
+                Console.WriteLine($" {i + 1}) {journal.Title}");
+            }
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                return journals[choice - 1];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Selection");
+                return null;
+            }
+        }
+
         private void Edit()
         {
-            List<Journal> journals = _journalRepository.GetAll();
+            /*List<Journal> journals = _journalRepository.GetAll();
             foreach (Journal j in journals)
             {
                 Console.WriteLine($"Title: ({j.Id}) {j.Title}");
                 Console.WriteLine($"{j.Content}");
                 Console.WriteLine($"Date: {j.CreateDateTime}");
             }
-            Journal journal = new Journal();
-            Console.Write("Which journal entry would you like to edit? ");
-            journal.Id = int.Parse(Console.ReadLine());
-            if (journal.Id != null)
+
+            Journal journal = new Journal();*/
+
+            Journal journal = Choose("Which journal entry would you like to edit? ");
+            if (journal == null)
             {
                 return;
             }
+
+            Console.WriteLine();
             Console.Write("What would you like the title to be? (Leave blank if no changes)");
-            if (!string.IsNullOrWhiteSpace(firstName))
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title))
             {
-                authorToEdit.FirstName = firstName;
+                journal.Title = title;
             }
-            Console.Write
+            Console.Write("What would you like to change the content to? ");
+            string content = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                journal.Content = content;
+            }
+
+            journal.CreateDateTime = DateTime.Now;
+
+            _journalRepository.Update(journal);
         }
     }
 }
