@@ -54,9 +54,9 @@ namespace TabloidCLI.UserInterfaceManagers
             Blog blog = _blogRepository.Get(_blogId);
             Console.WriteLine($"Title: {blog.Title}");
             Console.WriteLine($"Url {blog.Url}");
-            foreach (Tag tag in blog.Tags)
+            foreach (Tag blogtag in blog.Tags)
             {
-                Console.WriteLine(" " + tag);
+                Console.WriteLine(" " + blogtag);
             }
             Console.WriteLine();
         }
