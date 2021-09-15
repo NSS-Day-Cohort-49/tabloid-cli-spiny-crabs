@@ -52,7 +52,8 @@ namespace TabloidCLI.Repositories
                     cmd.CommandText = @"SELECT b.Id AS blogId, Title, URL, t.Id AS TagId, t.Name
                                     FROM Blog b
                                     LEFT JOIN BlogTag bt on bt.BlogId = bt.BlogId
-                                    LEFT JOIN Tag t on bt.TagId = t.Id";
+                                    LEFT JOIN Tag t on bt.TagId = t.Id
+                                    WHERE b.Id = @id";
 
                 cmd.Parameters.AddWithValue("@id", id);
 
