@@ -24,8 +24,8 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine($"{blog.Title} Details");
             Console.WriteLine(" 1) View");
             Console.WriteLine(" 2) Add Tag");
-            Console.WriteLine(" 3) Remove Tag");
-            Console.WriteLine(" 4) View Posts");
+            //Console.WriteLine(" 3) Remove Tag");
+            //Console.WriteLine(" 4) View Posts");
             Console.WriteLine(" 0) Go Back");
 
             Console.WriteLine("> ");
@@ -53,6 +53,13 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine(" " + tag);
             }
             Console.WriteLine();
+        }
+
+        private void AddTag()
+        {
+            Blog blog = _blogRepository.Get(_blogId);
+
+            Console.WriteLine($"Which tag would you like to add to {blog.Title}?");
         }
     }
 }
