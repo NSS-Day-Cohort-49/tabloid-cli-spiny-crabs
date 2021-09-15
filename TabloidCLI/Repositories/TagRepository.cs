@@ -64,7 +64,11 @@ namespace TabloidCLI.Repositories
 
         public void Update(Tag tag)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+            }
         }
 
         public void Delete(int id)
