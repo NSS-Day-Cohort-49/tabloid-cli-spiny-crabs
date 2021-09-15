@@ -23,7 +23,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Tag Menu");
             Console.WriteLine(" 1) List Tags");
             Console.WriteLine(" 2) Add Tag");
-            //Console.WriteLine(" 3) Edit Tag");
+            Console.WriteLine(" 3) Edit Tag");
             //Console.WriteLine(" 4) Remove Tag");
             Console.WriteLine(" 0) Go Back");
 
@@ -37,9 +37,9 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "2":
                     Add();
                     return this;
-                //case "3":
-                //    Edit();
-                //    return this;
+                case "3":
+                    Edit();
+                    return this;
                 //case "4":
                 //    Remove();
                 //    return this;
@@ -71,9 +71,55 @@ namespace TabloidCLI.UserInterfaceManagers
             _tagRepository.Insert(tag);
         }
 
+        private Tag Choose(string prompt = null)
+        {
+            if (prompt == null)
+            {
+                prompt = "please choose a tag: ";
+            }
+
+            Console.WriteLine(prompt);
+
+            List<Tag> tags = _tagRepository.GetAll();
+
+            for (int i = 0; i < tags.Count; i++)
+            {
+                Tag tag = tags[i];
+                Console.WriteLine($" {i + 1}) {tag.Name}");
+            }
+
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                return tags[choice - 1];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Selection");
+                return null;
+            }
+        }
+
         private void Edit()
         {
-            throw new NotImplementedException();
+            Tag tag = Choose("Choose a tag to edit: ");
+            if (tag == null)
+            {
+                return;
+            }
+
+            Console.WriteLine();
+            Console.Write("Rename the tag (Leave blank if you don't wish to change)");
+            string name = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                tag.Name = name;
+            }
+
+            _tagRepository.Update(tag);
         }
 
         private void Remove()
