@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using TabloidCLI.Models;
+using TabloidCLI.Repositories;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class TagManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUI;
+        private TagRepository _tagRepository;
+        private string _connectionString;
 
         public TagManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
-            _tagRepository = new Repositories.TagRepository(connectionString);
+            _tagRepository = new TagRepository(connectionString);
             _connectionString = connectionString;
         }
 
@@ -31,15 +34,15 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "1":
                     List();
                     return this;
-                case "2":
-                    Add();
-                    return this;
-                case "3":
-                    Edit();
-                    return this;
-                case "4":
-                    Remove();
-                    return this;
+                //case "2":
+                //    Add();
+                //    return this;
+                //case "3":
+                //    Edit();
+                //    return this;
+                //case "4":
+                //    Remove();
+                //    return this;
                 case "0":
                     return _parentUI;
                 default:
@@ -50,7 +53,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void List()
         {
-            List<Tag> tags = __tagRepository.GetAll();
+            List<Tag> tags = _tagRepository.GetAll();
             foreach (Tag tag in tags)
             {
                 Console.WriteLine($"{tag.Name}");

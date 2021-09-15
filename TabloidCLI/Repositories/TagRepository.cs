@@ -44,18 +44,6 @@ namespace TabloidCLI.Repositories
             throw new NotImplementedException();
         }
 
-        public List<Tag> GetTags(int tagId)
-        {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"SELECT * FROM Tag"
-                }
-            }
-        }
-
         public void Insert(Tag tag)
         {
             throw new NotImplementedException();
