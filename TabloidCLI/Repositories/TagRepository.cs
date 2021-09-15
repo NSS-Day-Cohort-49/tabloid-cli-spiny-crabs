@@ -75,7 +75,7 @@ namespace TabloidCLI.Repositories
                     cmd.Parameters.AddWithValue("@name", tag.Name);
                     cmd.Parameters.AddWithValue("@id", tag.Id);
 
-                    cmd.BeginExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
