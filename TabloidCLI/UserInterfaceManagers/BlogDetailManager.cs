@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TabloidCLI.Repositories;
 using TabloidCLI.Models;
+using System.Linq;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
@@ -10,11 +11,13 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private IUserInterfaceManager _parentUI;
         private BlogRepository _blogRepository;
+        private TagRepository _tagRepository;
         private int _blogId;
         public BlogDetailManager(IUserInterfaceManager parentUI, string connectionString, int blogId)
         {
             _parentUI = parentUI;
             _blogRepository = new BlogRepository(connectionString);
+            _tagRepository = new TagRepository(connectionString);
             _blogId = blogId;
         }
 
@@ -34,6 +37,9 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 case "1":
                     View();
+                    return this;
+                case "2":
+                    AddTag();
                     return this;
                 case "0":
                     return _parentUI;
@@ -60,6 +66,34 @@ namespace TabloidCLI.UserInterfaceManagers
             Blog blog = _blogRepository.Get(_blogId);
 
             Console.WriteLine($"Which tag would you like to add to {blog.Title}?");
+            List<Tag> tags = _tagRepository.GetAll();
+
+            for (int i = 0; i < tags.Count; i++)
+            {
+                Tag tag = tags[i];
+                Console.WriteLine($" {i + 1}) {tag.Name}");
+            }
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                Tag tag = tags[choice - 1];
+                if (blog.Tags.Any(t => t.Id == tag.Id))
+                {
+                    Console.WriteLine($"{blog.Title} already has the {tag} tag.");
+                }
+                else
+                {
+                    _blogRepository.InsertTag(blog, tag);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Selection. Won't add any tags.");
+            }
         }
     }
 }
+

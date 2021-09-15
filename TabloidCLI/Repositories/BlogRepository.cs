@@ -49,7 +49,7 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT b.Id AS blogId, Title, URL, t.Id AS TagId, t.Name
+                    cmd.CommandText = @"SELECT b.Id AS blogId, Title, URL, t.Id AS TagId, t.Name AS TagName
                                     FROM Blog b
                                     LEFT JOIN BlogTag bt on bt.BlogId = bt.BlogId
                                     LEFT JOIN Tag t on bt.TagId = t.Id
@@ -76,7 +76,7 @@ namespace TabloidCLI.Repositories
                             blog.Tags.Add(new Tag()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("TagId")),
-                                Name = reader.GetString(reader.GetOrdinal("t.Name"))
+                                Name = reader.GetString(reader.GetOrdinal("TagName"))
                             });
                         }
                     }
@@ -135,6 +135,22 @@ namespace TabloidCLI.Repositories
 
                     cmd.ExecuteNonQuery();
                 }            
+            }
+        }
+
+        public void InsertTag(Blog blog, Tag tag)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO BlogTag (BlogId, TagId)
+                                        VALUES (@blogId, @tagId)";
+                    cmd.Parameters.AddWithValue("@blogId", blog.Id);
+                    cmd.Parameters.AddWithValue("@tagId", tag.Id);
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
