@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TabloidCLI.Models;
 using TabloidCLI.Repositories;
+using System.Linq;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
@@ -98,7 +99,14 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 int choice = int.Parse(input);
                 Tag tag = tags[choice - 1];
+                if (author.Tags.Any(t => t.Id == tag.Id))
+                {
+                    Console.WriteLine($"{author} already has the {tag} tag.");
+                }
+                else
+                {
                 _authorRepository.InsertTag(author, tag);
+                }
             }
             catch (Exception ex)
             {
