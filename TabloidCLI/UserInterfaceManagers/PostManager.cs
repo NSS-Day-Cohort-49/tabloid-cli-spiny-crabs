@@ -82,7 +82,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.Write("URL: ");
             post.Url = Console.ReadLine();
 
-            Console.WriteLine("Please select an Author Value: ");
+            Console.WriteLine("Please select Authors Index: ");
             List<Author> authors = _authorRepository.GetAll();
             for (int i = 0; i < authors.Count; i++)
             {
@@ -90,11 +90,10 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine($" {i + 1}) {newAuthor.FullName}");
             }
             Console.Write("> ");
-            Author author = new Author()
-            {
-                Id = int.Parse(Console.ReadLine())
-            };
-            post.Author = author; 
+
+            int authorIndex = int.Parse(Console.ReadLine());
+            
+            post.Author = authors[authorIndex-1]; 
 
             Console.WriteLine("Please select a Blog Value: ");
             List<Blog> blogs = _blogRepository.GetAll();
@@ -104,11 +103,9 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine($" {i + 1}) {newBlog.Title}");
             }
             Console.Write("> ");
-            Blog blog = new Blog()
-            {
-                Id = int.Parse(Console.ReadLine())
-            };
-            post.Blog = blog;
+            int blogIndex = int.Parse(Console.ReadLine());
+            post.Blog = blogs[blogIndex-1];
+
             post.PublishDateTime = DateTime.UtcNow;
 
             _postRepository.Insert(post);
