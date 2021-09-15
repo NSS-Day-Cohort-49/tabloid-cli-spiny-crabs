@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using TabloidCLI.Models;
 
+
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class PostManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUI;
         private Repositories.PostRepository _postRepository;
+        private AuthorRepository _authorRepository;
+        private Repositories.BlogRepository _blogRepository;
         private string _connectionString;
 
 
@@ -15,6 +18,8 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             _parentUI = parentUI;
             _postRepository = new Repositories.PostRepository(connectionString);
+            _blogRepository = new Repositories.BlogRepository(connectionString);
+            _authorRepository = new AuthorRepository(connectionString);
             _connectionString = connectionString;
         }
 
@@ -35,12 +40,11 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "1":
                     List();
                     return this;
-                //case "2":
-                //    Post post = Choose();
-                    
-                //case "3":
-                //    Add();
-                //    return this;
+
+                case "2":
+                    Add();
+                    return this;
+
                 //case "4":
                 //    Edit();
                 //    return this;
@@ -63,5 +67,52 @@ namespace TabloidCLI.UserInterfaceManagers
 
             }
         }
+
+
+
+
+        private void Add()
+        {
+            Console.WriteLine("New Post");
+            Post post = new Post();
+
+            Console.Write("Title of Post: ");
+            post.Title = Console.ReadLine();
+
+            Console.Write("URL: ");
+            post.Url = Console.ReadLine();
+
+            Console.WriteLine("Please select Authors Index: ");
+            List<Author> authors = _authorRepository.GetAll();
+            for (int i = 0; i < authors.Count; i++)
+            {
+                Author newAuthor = authors[i];
+                Console.WriteLine($" {i + 1}) {newAuthor.FullName}");
+            }
+            Console.Write("> ");
+
+            int authorIndex = int.Parse(Console.ReadLine());
+            
+            post.Author = authors[authorIndex-1]; 
+
+            Console.WriteLine("Please select a Blog Value: ");
+            List<Blog> blogs = _blogRepository.GetAll();
+            for (int i = 0; i < blogs.Count; i++)
+            {
+                Blog newBlog = blogs[i];
+                Console.WriteLine($" {i + 1}) {newBlog.Title}");
+            }
+            Console.Write("> ");
+            int blogIndex = int.Parse(Console.ReadLine());
+            post.Blog = blogs[blogIndex-1];
+
+            post.PublishDateTime = DateTime.UtcNow;
+
+            _postRepository.Insert(post);
+            Console.WriteLine("Post successfully added!");
+            Console.WriteLine(" ");
+        }
+
+
     }
 }
