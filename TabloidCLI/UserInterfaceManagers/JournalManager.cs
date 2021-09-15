@@ -116,16 +116,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            /*List<Journal> journals = _journalRepository.GetAll();
-            foreach (Journal j in journals)
-            {
-                Console.WriteLine($"Title: ({j.Id}) {j.Title}");
-                Console.WriteLine($"{j.Content}");
-                Console.WriteLine($"Date: {j.CreateDateTime}");
-            }
-
-            Journal journal = new Journal();*/
-
+          
             Journal journal = Choose("Which journal entry would you like to edit? ");
             if (journal == null)
             {
@@ -139,7 +130,7 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 journal.Title = title;
             }
-            Console.Write("What would you like to change the content to? ");
+            Console.Write("What would you like to change the content to? (Leave blank if no changes)");
             string content = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(content))
             {
