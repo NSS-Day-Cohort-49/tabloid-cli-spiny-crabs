@@ -31,7 +31,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 2) Add Posts");
             Console.WriteLine(" 3) Edit Post");
             Console.WriteLine(" 4) Remove Post");
-            Console.WriteLine(" 5) Note Management");
+            //Console.WriteLine(" 5) Note Management");
             Console.WriteLine(" 0) Return to Main Menu");
 
             Console.Write("> ");
@@ -41,7 +41,6 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "1":
                     List();
                     return this;
-
                 case "2":
                     Add();
                     return this;
@@ -129,7 +128,6 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine($" {i + 1}) {newAuthor.FullName}");
             }
             Console.Write("> ");
-
             string authorIndexString = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(authorIndexString))
             {
