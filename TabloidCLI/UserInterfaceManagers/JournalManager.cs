@@ -25,8 +25,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 1) List all Journals");
             Console.WriteLine(" 2) Add Journal");
             Console.WriteLine(" 3) Edit Journal Entry");
-/*            Console.WriteLine(" 4) Edit Author");
-            Console.WriteLine(" 5) Remove Author");*/
+            Console.WriteLine(" 4) Remove Journal Entry");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -42,12 +41,9 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "3":
                     Edit();
                     return this;
-                /*case "4":
-                    Edit();
-                    return this;
-                case "5":
+                case "4":
                     Remove();
-                    return this;*/
+                    return this;
                 case "0":
                     return _parentUI;
                 default:
@@ -72,7 +68,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("New Journal Entry");
             Journal journal = new Journal();
 
-            Console.Write("Title:");
+            Console.Write("Title: ");
             journal.Title = Console.ReadLine();
 
             Console.WriteLine("Content:");
@@ -87,7 +83,7 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             if (prompt == null)
             {
-                prompt = "Please choose a Journal:";
+                prompt = "Please choose a Journal: ";
             }
 
             Console.WriteLine(prompt);
@@ -124,13 +120,13 @@ namespace TabloidCLI.UserInterfaceManagers
             }
 
             Console.WriteLine();
-            Console.Write("What would you like the title to be? (Leave blank if no changes)");
+            Console.Write("What would you like the title to be? (Leave blank if no changes) ");
             string title = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(title))
             {
                 journal.Title = title;
             }
-            Console.Write("What would you like to change the content to? (Leave blank if no changes)");
+            Console.Write("What would you like to change the content to? (Leave blank if no changes) ");
             string content = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(content))
             {
@@ -140,6 +136,15 @@ namespace TabloidCLI.UserInterfaceManagers
             journal.CreateDateTime = DateTime.Now;
 
             _journalRepository.Update(journal);
+        }
+
+        private void Remove()
+        {
+            Journal journalToDelete = Choose("Which journal entry would you like to remove? ");
+            if (journalToDelete != null)
+            {
+                _journalRepository.Delete(journalToDelete.Id);
+            }
         }
     }
 }
