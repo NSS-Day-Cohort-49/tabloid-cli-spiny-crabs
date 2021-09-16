@@ -146,9 +146,7 @@ namespace TabloidCLI
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"DELETE FROM AuthorTag WHERE AuthorId = @id;
-                                      DELETE FROM Post WHERE AuthorId = @id;
-                                        DELETE FROM Author where Id = @id";
+                    cmd.CommandText = "DELETE FROM Author where Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
 
                     cmd.ExecuteNonQuery();
