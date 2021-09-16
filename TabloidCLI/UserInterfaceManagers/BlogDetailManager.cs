@@ -71,7 +71,6 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Blog blog = _blogRepository.Get(_blogId);
             if (blog.Posts.Count == 0)
-                Console.WriteLine();
             {
                 Console.WriteLine("No posts");
             }
