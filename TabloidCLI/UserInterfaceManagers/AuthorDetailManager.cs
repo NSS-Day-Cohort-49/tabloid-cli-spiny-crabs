@@ -78,6 +78,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine($"Title: {post.Title}");
                 Console.WriteLine($"{post.Url}");
                 Console.WriteLine($"Posted on: {post.PublishDateTime}");
+                Console.WriteLine();
             }
             Console.WriteLine();
         }
