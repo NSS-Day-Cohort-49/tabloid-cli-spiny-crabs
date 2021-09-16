@@ -28,7 +28,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 1) View");
             Console.WriteLine(" 2) Add Tag");
             Console.WriteLine(" 3) Remove Tag");
-            //Console.WriteLine(" 4) View Posts");
+            Console.WriteLine(" 4) View Posts");
             Console.WriteLine(" 0) Go Back");
 
             Console.WriteLine("> ");
@@ -43,6 +43,9 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
                 case "3":
                     RemoveTag();
+                    return this;
+                case "4":
+                    ViewPosts();
                     return this;
                 case "0":
                     return _parentUI;
@@ -60,6 +63,20 @@ namespace TabloidCLI.UserInterfaceManagers
             foreach (Tag blogtag in blog.Tags)
             {
                 Console.WriteLine(" " + blogtag);
+            }
+            Console.WriteLine();
+        }
+
+        private void ViewPosts()
+        {
+            Blog blog = _blogRepository.Get(_blogId);
+            if (blog.Posts.Count == 0)
+            {
+                Console.WriteLine("No posts");
+            }
+            foreach (Post post in blog.Posts)
+            {
+                Console.WriteLine($"{post.Title} \n");
             }
             Console.WriteLine();
         }
