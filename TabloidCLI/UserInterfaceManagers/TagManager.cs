@@ -24,7 +24,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 1) List Tags");
             Console.WriteLine(" 2) Add Tag");
             Console.WriteLine(" 3) Edit Tag");
-            //Console.WriteLine(" 4) Remove Tag");
+            Console.WriteLine(" 4) Remove Tag");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -40,9 +40,9 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "3":
                     Edit();
                     return this;
-                //case "4":
-                //    Remove();
-                //    return this;
+                case "4":
+                    Remove();
+                    return this;
                 case "0":
                     return _parentUI;
                 default:
@@ -124,7 +124,11 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Remove()
         {
-            throw new NotImplementedException();
+            Tag removeTag = Choose("Which tag would you like to delete? > ");
+            if (removeTag != null)
+            {
+                _tagRepository.Delete(removeTag.Id);
+            }
         }
     }
 }
