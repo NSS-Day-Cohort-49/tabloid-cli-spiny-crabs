@@ -104,6 +104,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
             if (blog.Tags.Count == 0)
             {
+                Console.WriteLine("No tags to remove.");
                 return;
             }
 

@@ -130,7 +130,9 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"DELETE FROM BlogTag WHERE BlogId = @id DELETE FROM Blog WHERE id = @id";
+                    cmd.CommandText = @"DELETE pt FROM PostTag pt JOIN Post p on pt.PostId = p.Id WHERE p.BlogId = @id
+                                        DELETE FROM Post WHERE BlogId = @id DELETE FROM BlogTag WHERE BlogId = @id 
+                                        DELETE FROM Blog WHERE id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
 
                     cmd.ExecuteNonQuery();
@@ -161,7 +163,7 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"DELETE FROM BlogTag WHERE BlogId = @blogId && WHERE TagId = @tagId";
+                    cmd.CommandText = @"DELETE FROM BlogTag WHERE BlogId = @blogId AND TagId = @tagId";
                     cmd.Parameters.AddWithValue("@blogId", blog.Id);
                     cmd.Parameters.AddWithValue("@tagId", tag.Id);
 
