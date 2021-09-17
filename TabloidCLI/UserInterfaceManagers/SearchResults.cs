@@ -3,7 +3,15 @@ using System.Collections.Generic;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
-    public class SearchResults<T>
+
+    public interface ISearchResults
+    {
+        bool NoResultsFound { get; } 
+
+        void Display();
+    }
+
+    public class SearchResults<T> : ISearchResults
     {
         private List<T> _results = new List<T>();
 
@@ -33,5 +41,6 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Console.WriteLine();
         }
+
     }
 }
