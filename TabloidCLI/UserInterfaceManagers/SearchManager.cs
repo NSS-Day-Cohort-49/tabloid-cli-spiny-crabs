@@ -1,6 +1,7 @@
 ﻿using System;
 using TabloidCLI.Models;
 using TabloidCLI.Repositories;
+using System.Collections.Generic;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
@@ -104,29 +105,20 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.Write("Tag> ");
             string tagName = Console.ReadLine();
 
+            
             SearchResults<Post> postResults = _tagRepository.SearchPosts(tagName);
             SearchResults<Blog> blogResults = _tagRepository.SearchBlogs(tagName);
             SearchResults<Author> authorResults = _tagRepository.SearchAuthors(tagName);
-            if (blogResults.NoResultsFound)
-            {
-                if (postResults.NoResultsFound)
+            List<ISearchResults> results = new List<ISearchResults> { postResults, blogResults, authorResults};
+
+            foreach (ISearchResults result in results)
+                if (!result.NoResultsFound)
                 {
-                    if (authorResults.NoResultsFound)
-                    {
-
-                        Console.WriteLine($"No results for {tagName}");
-                    }
-
+                    result.Display();
                 }
-            }
-
-            else
-
+            if (blogResults.NoResultsFound && postResults.NoResultsFound && authorResults.NoResultsFound)
             {
-                blogResults.Display();
-                authorResults.Display();
-                postResults.Display();
-
+                Console.WriteLine($"No results for {tagName}");
             }
         }
 
